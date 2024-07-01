@@ -131,6 +131,30 @@ const getCatPosts = async (req, res, next) => {
         return next(new HttpError(error));
     }
 };
+
+
+const getPostsByCategory = async (req, res, next) => {
+    const { category } = req.params;
+    try {
+        // Find the category by name
+        const categoryObj = await Category.findOne({ name: category });
+        if (!categoryObj) {
+            return next(new HttpError('Category not found.', 404));
+        }
+
+        // Use the category's ObjectId to find posts
+        const posts = await Post.find({ category: categoryObj._id }).populate('category', 'name').sort({ createdAt: -1 });
+        if (!posts.length) {
+            return next(new HttpError('No posts found for this category.', 404));
+        }
+        res.status(200).json(posts);
+    } catch (error) {
+        console.error(error);
+        return next(new HttpError('Fetching posts failed, please try again later.', 500));
+    }
+};
+
+
 //============================== GET POSTS BY AUTHOR
 // GET : api/posts/users/:id
 // UNPROTECTED
@@ -241,4 +265,4 @@ const removePost = async (req, res, next) => {
     }
 }
 
-module.exports = {getPosts, getPost, getCatPosts, getUserPosts, createPost, editPost, removePost}
+module.exports = {getPosts, getPost, getCatPosts, getUserPosts, createPost, editPost, removePost, getPostsByCategory}
