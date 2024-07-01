@@ -157,7 +157,7 @@ const editPost = async (req, res, next) => {
     try {
         const postID = req.params.id;
         let {title, category, description} = req.body;
-        // ReactQuill has a paragraph opening and closing tag with a break tag in between so there are 11 characters in there already. That's why 12 
+      
         if(!title || !category || description.length < 12) {
             return next(new HttpError("Fill all fields", 422))
         }

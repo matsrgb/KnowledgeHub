@@ -286,7 +286,6 @@ label {
 
 
 
-/* fix for ql editor overflow */
 .ql-editor {
   overflow: scroll;
   height: 8rem;
@@ -301,7 +300,6 @@ label {
   width: 100%;
 }
 
-/* little style on error page */
 .error-page h2 {
   margin-top: 3rem;
 }
