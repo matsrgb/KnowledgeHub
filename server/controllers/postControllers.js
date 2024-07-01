@@ -115,22 +115,6 @@ const getPost = async (req, res, next) => {
 }
 
 
-//============================== GET POSTS BY CATEGORY
-// GET : api/posts/categories/:category
-// UNPROTECTED
-const getCatPosts = async (req, res, next) => {
-    try {
-        const { categoryId } = req.params;
-        const category = await Category.findById(categoryId);
-        if (!category) {
-            return next(new HttpError("Category not found.", 404));
-        }
-        const catPosts = await Post.find({ category: categoryId }).sort({ createdAt: -1 });
-        res.json(catPosts);
-    } catch (error) {
-        return next(new HttpError(error));
-    }
-};
 
 
 const getPostsByCategory = async (req, res, next) => {
